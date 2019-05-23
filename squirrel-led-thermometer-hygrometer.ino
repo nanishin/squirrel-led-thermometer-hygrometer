@@ -109,14 +109,14 @@ void loop() {
     Serial.print("Temperature: ");
     Serial.print(event.temperature);
     Serial.println(" *C");
-    if (event.temperature <= 5) {
+    if (event.temperature <= 15) {
       body_colorWipe(body_strip.Color(0, 0, 255), 50); // Blue
-    } else if (event.temperature > 5 && event.temperature <= 15) {
-      body_colorWipe(body_strip.Color(0, 255, 255), 50); // Cyan
     } else if (event.temperature > 15 && event.temperature <= 25) {
       body_colorWipe(body_strip.Color(0, 255, 0), 50); // Green
-    } else if (event.temperature > 25 && event.temperature <= 35) {
+    } else if (event.temperature > 25 && event.temperature <= 30) {
       body_colorWipe(body_strip.Color(255, 255, 0), 50); // Yellow
+    } else if (event.temperature > 30 && event.temperature <= 35) {
+      body_colorWipe(body_strip.Color(255, 127, 0), 50); // Orange
     } else if (event.temperature > 35) {
       body_colorWipe(body_strip.Color(255, 0, 0), 50); // Red
     }
@@ -146,11 +146,13 @@ void loop() {
     if (event.relative_humidity <= 50) {
       if (pre_relay == 0) {
         digitalWrite(RELAYPIN, HIGH);
-        pre_relay == 1;
+        pre_relay = 1;
+        Serial.println("Turn on Humidifier");
       }
     } else {
       digitalWrite(RELAYPIN, LOW);
       pre_relay = 0;
+      Serial.println("Turn off Humidifier");
     }
   }
 }
